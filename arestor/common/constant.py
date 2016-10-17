@@ -20,3 +20,6 @@ DEFAULT_LOG_FILE = 'arestor.log'
 TASK_RUNNING = "running"
 TASK_DONE = "done"
 TASK_FAILED = "failed"
+
+AC_ALLOW_METHODS = 'Access-Control-Allow-Methods'
+SERVICE_THREAD_POOL = 3
