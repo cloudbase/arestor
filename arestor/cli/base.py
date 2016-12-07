@@ -334,7 +334,7 @@ class Application(Group, Task):
             LOG.error("No command line arguments was provided.")
             return
 
-        work_function = self.args.get("work", None)
+        work_function = getattr(self.args, "work", None)
         if not work_function:
             LOG.error("No handle was provided for the required action.")
             return
