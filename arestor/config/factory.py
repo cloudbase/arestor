@@ -13,8 +13,9 @@
 #    under the License.
 
 _OPT_PATHS = (
+    'arestor.config.api.ArestorAPIOptions',
     'arestor.config.default.ArestorOptions',
-    'arestor.config.api.ArestorAPIOptions'
+    'arestor.config.redis.RedisOptions',
 )
 
 

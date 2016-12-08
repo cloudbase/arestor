@@ -3,3 +3,4 @@ cherrypy
 pycrypto
 oslo.log
 oslo.config
+redis
