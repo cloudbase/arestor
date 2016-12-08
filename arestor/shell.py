@@ -17,14 +17,20 @@
 import argparse
 import sys
 
+from oslo_log import log as logging
+
 from arestor.cli import base as cli_base
+from arestor.cli import commands as cli_commands
+from arestor import config
+
+CONFIG = config.CONFIG
 
 
 class ArestorCli(cli_base.Application):
 
     """Command line application for interacting with InstaCli."""
 
-    commands = []
+    commands = [(cli_commands.Server, "commands")]
 
     def setup(self):
         """Setup the command line parser.
@@ -41,6 +47,7 @@ class ArestorCli(cli_base.Application):
 
 def main():
     """The Arestor command line application."""
+    logging.setup(CONFIG, "arestor")
     arestor = ArestorCli(sys.argv[1:])
     arestor.run()
     return arestor.result
