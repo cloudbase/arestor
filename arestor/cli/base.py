@@ -20,13 +20,14 @@ Client base-classes:
 
 import abc
 
+from oslo_log import log as logging
 import six
 
 from arestor.common import constant
 from arestor.common import exception
 from arestor.common import util
 
-LOG = util.get_logger()
+LOG = logging.getLogger(__name__)
 
 
 @six.add_metaclass(abc.ABCMeta)

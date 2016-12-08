@@ -14,6 +14,7 @@
 
 _OPT_PATHS = (
     'arestor.config.default.ArestorOptions',
+    'arestor.config.api.ArestorAPIOptions'
 )
 
 

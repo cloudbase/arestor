@@ -14,9 +14,6 @@
 
 """A collection of utilities used across the project."""
 
-import logging
-
-from arestor.common import constant
 from arestor.common import exception
 
 
@@ -39,27 +36,3 @@ def get_attribute(root, attribute):
     raise exception.ArestorException("The %(attribute)r attribute is "
                                      "missing from the object tree.",
                                      attribute=attribute)
-
-
-def get_logger(name="instacli", format_string=constant.DEFAULT_FORMAT,
-               logging_file=constant.DEFAULT_LOG_FILE):
-    """Obtain a new logger object.
-
-    The `name` parameter will be the name of the logger and `format_string`
-    will be the format it will use for logging. `logging_file` is a file
-    where the messages will be written.
-    """
-    logger = logging.getLogger(name)
-    formatter = logging.Formatter(format_string)
-
-    if not logger.handlers:
-        # If the logger wasn't obtained another time,
-        # then it shouldn't have any loggers
-
-        if logging_file:
-            file_handler = logging.FileHandler(logging_file, delay=True)
-            file_handler.setFormatter(formatter)
-            logger.addHandler(file_handler)
-
-    logger.setLevel(logging.DEBUG)
-    return logger

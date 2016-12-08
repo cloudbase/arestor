@@ -15,12 +15,14 @@
 import os
 
 from oslo_config import cfg
+from oslo_log import log as logging
 
 from arestor.config import factory
 from arestor import version
 
 CONFIG = cfg.ConfigOpts()
 
+logging.register_options(CONFIG)
 for option_class in factory.get_options():
     option_class(CONFIG).register()
 

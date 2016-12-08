@@ -12,14 +12,20 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-"""Constants used across the project."""
+# pylint: disable=invalid-name
 
-DEFAULT_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-DEFAULT_LOG_FILE = 'arestor.log'
+"""Arestor API version 1."""
 
-TASK_RUNNING = "running"
-TASK_DONE = "done"
-TASK_FAILED = "failed"
+from arestor.api import base as base_api
 
-AC_ALLOW_METHODS = 'Access-Control-Allow-Methods'
-PID_TMP_FILE = "/tmp/arestor.pid"
+
+class ArestorV1(base_api.BaseAPI):
+
+    """Arestor API version 1."""
+
+    resources = None
+    """A list that contains all the resources (endpoints) available for the
+    current metadata service."""
+
+    exposed = True
+    """Whether this application should be available for clients."""
