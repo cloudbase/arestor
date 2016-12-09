@@ -16,9 +16,7 @@
 
 import base64
 import hashlib
-import json
 
-import cherrypy
 from Crypto.Cipher import AES
 from Crypto import Random
 from oslo_log import log as logging
@@ -105,11 +103,13 @@ class RedisConnection(object):
         """Try establishing a connection until succeeds."""
         try:
             rcon = redis.StrictRedis(self._host, self._port, self._db)
-            # return the connection only if is valid and reachable
+            # Return the connection only if is valid and reachable
             if not rcon.ping():
                 return None
-        except (redis.ConnectionError, redis.RedisError):
+        except (redis.ConnectionError, redis.RedisError) as exc:
+            LOG.error("Failed to connect to Redis Server: %s", exc)
             return None
+
         return rcon
 
     def refresh(self, tries=3):
@@ -120,10 +120,11 @@ class RedisConnection(object):
                     self._rcon = self._connect()
                 else:
                     break
-            except redis.ConnectionError:
-                pass
+            except redis.ConnectionError as exc:
+                LOG.error("Failed to connect to Redis Server: %s", exc)
         else:
-            raise redis.ConnectionError("Connection refused.")
+            raise exception.ArestorException(
+                "Failed to connect to Redis Server.")
 
         return True
 
@@ -132,65 +133,3 @@ class RedisConnection(object):
         """Return a Redis connection."""
         self.refresh()
         return self._rcon
-
-    def get_secret(self, api_key):
-        """Get the secret for the user with received api key."""
-        return self.rcon.hget("user.secret", api_key)
-
-    def get_user(self, api_key):
-        """Get information regarding user which has received api key."""
-        return json.load(self.rcon.hget("user.info", api_key))
-
-
-class UserManager(cherrypy.Tool):
-
-    """Check if the request is valid and the resource is available."""
-
-    def __init__(self):
-        """Setup the new instance."""
-        super(UserManager, self).__init__('before_handler', self.load,
-                                          priority=10)
-        self._redis = RedisConnection()
-
-    @staticmethod
-    def _process_content(secret):
-        """Get information from request and update request params."""
-        request = cherrypy.request
-        content = request.params.pop('content', None)
-        if not content:
-            return True
-
-        cipher = AESCipher(secret)
-        try:
-            params = json.loads(cipher.decrypt(content))
-        except ValueError as exc:
-            LOG.error("Failed to decrypt content: %s", exc)
-            return False
-
-        if not isinstance(params, dict):
-            LOG.error("Invalid content type provided: %s", type(params))
-            return False
-
-        for key, value in params.items():
-            request.params[key] = value
-
-        return True
-
-    def load(self):
-        """Process information received from client."""
-        request = cherrypy.request
-        api_key = request.params.get('api_key')
-        secret = self._redis.get_secret(api_key)
-
-        request.params["status"] = False
-        request.params["verbose"] = "OK"
-
-        if not secret:
-            request.params["verbose"] = "Invalid api key provided."
-            return
-
-        if not self._process_content(secret):
-            request.params["verbose"] = "Invalid request."
-            return
-
-        request.params["status"] = True

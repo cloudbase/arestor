@@ -30,7 +30,10 @@ class ArestorCli(cli_base.Application):
 
     """Command line application for interacting with InstaCli."""
 
-    commands = [(cli_commands.Server, "commands")]
+    commands = [
+        (cli_commands.Server, "commands"),
+        (cli_commands.User, "commands"),
+    ]
 
     def setup(self):
         """Setup the command line parser.

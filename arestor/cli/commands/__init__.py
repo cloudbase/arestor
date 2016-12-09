@@ -13,5 +13,7 @@
 #    under the License.
 
 from arestor.cli.commands import server
+from arestor.cli.commands import user
 
 Server = server.Server
+User = user.User
