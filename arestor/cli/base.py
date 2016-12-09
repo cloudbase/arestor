@@ -287,8 +287,8 @@ class Application(Group, Task):
         """What to execute after successfully finished processing a task."""
         self._result = result
         self._status = constant.TASK_DONE
-        LOG.info("Command %(command)s sucessfully run. (Result: %(result)s)",
-                 {"command": task.name, "result": result})
+        LOG.debug("Command %(command)s sucessfully run. (Result: %(result)s)",
+                  {"command": task.name, "result": result})
 
     def on_task_fail(self, task, exc):
         """What to do when the program fails processing a task."""
@@ -318,7 +318,7 @@ class Application(Group, Task):
 
     def _on_task_done(self, result):
         """What to execute after successfully finished processing a task."""
-        self.on_task_fail(self, result)
+        self.on_task_done(self, result)
 
     def _on_task_fail(self, exc):
         """What to do when the program fails processing a task."""

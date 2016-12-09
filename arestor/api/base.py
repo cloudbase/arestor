@@ -63,3 +63,16 @@ class BaseAPI(object):
     def GET(self):
         """ArestorV1 resource representation."""
         return "\n".join([endpoint for endpoint, _ in self.resources or []])
+
+
+class Resource(object):
+
+    """Contract class for all resources."""
+
+    def _get_template(self):
+        """Get the default information for the current resource."""
+        pass
+
+    def _update_template(self, data):
+        """Patch the default information."""
+        pass
