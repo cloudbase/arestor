@@ -17,8 +17,6 @@
 (Beginning of) the contract that all the resources must follow.
 """
 
-# pylint: disable=invalid-name
-
 from oslo_log import log as logging
 
 from arestor import config as arestor_config
