@@ -12,7 +12,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-# pylint: disable=invalid-name
 
 """Arestor API version 1."""
 
