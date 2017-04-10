@@ -13,6 +13,8 @@
 #    under the License.
 
 """Constants used across the project."""
+import os
+from tempfile import gettempdir
 
 DEFAULT_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 DEFAULT_LOG_FILE = 'arestor.log'
@@ -22,4 +24,4 @@ TASK_DONE = "done"
 TASK_FAILED = "failed"
 
 AC_ALLOW_METHODS = 'Access-Control-Allow-Methods'
-PID_TMP_FILE = "/tmp/arestor.pid"
+PID_TMP_FILE = os.path.join(gettempdir(), "arestor.pid")
