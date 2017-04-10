@@ -1,3 +1,4 @@
+pbr>=1.9
 six>=1.7.0
 cherrypy
 pycrypto
