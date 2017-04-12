@@ -15,8 +15,11 @@
 """A collection of utilities used across the project."""
 
 import base64
+import functools
 import hashlib
+import json
 
+import cherrypy
 from Crypto.Cipher import AES
 from Crypto import Random
 from oslo_log import log as logging
@@ -48,6 +51,28 @@ def get_attribute(root, attribute):
     raise exception.ArestorException("The %(attribute)r attribute is "
                                      "missing from the object tree.",
                                      attribute=attribute)
+
+
+def check_credentials(method):
+    """Check if the user has access to the required method."""
+
+    @functools.wraps(method)
+    def wrapper(*args, **kwargs):
+        """Check if the request is valid."""
+        response = {
+            "meta": {
+                "status": kwargs.pop("status", True),
+                "verbose": kwargs.pop("verbose", "OK")
+            },
+            "content": None
+        }
+        if not response["meta"]["status"]:
+            cherrypy.response.headers['Content-Type'] = 'application/json'
+            cherrypy.response.status = 400
+            return json.dumps(response)
+        return method(*args, **kwargs)
+
+    return wrapper
 
 
 class AESCipher(object):
