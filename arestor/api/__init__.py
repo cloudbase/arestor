@@ -45,6 +45,6 @@ class Root(api_base.BaseAPI):
                 'server.thread_pool': CONFIG.api.thread_pool,
             },
             '/': {
-                'request.dispatch': cherrypy.dispatch.MethodDispatcher()
+                'request.dispatch': api_base.MethodDispatcher()
             }
         }
