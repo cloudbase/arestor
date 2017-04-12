@@ -1,4 +1,4 @@
-# Copyright 2016 Cloudbase Solutions Srl
+# Copyright 2017 Cloudbase Solutions Srl
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -12,18 +12,22 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-"""Constants used across the project."""
-import os
-from tempfile import gettempdir
 
-DEFAULT_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-DEFAULT_LOG_FILE = 'arestor.log'
+"""Admin endpoint for the Arestor API."""
 
-TASK_RUNNING = "running"
-TASK_DONE = "done"
-TASK_FAILED = "failed"
+from arestor.api.admin import resource
+from arestor.api import base as base_api
 
-AC_ALLOW_METHODS = 'Access-Control-Allow-Methods'
-PID_TMP_FILE = os.path.join(gettempdir(), "arestor.pid")
 
-KEY_FORMAT = "{namespace}/{user}/{name}"
+class AdminEndpoint(base_api.BaseAPI):
+
+    """Admin endpoint for the Arestor API."""
+
+    resources = [
+        ("resource", resource.ResourceEndpoint),
+    ]
+    """A list that contains all the resources (endpoints) available for the
+    current metadata service."""
+
+    exposed = True
+    """Whether this application should be available for clients."""
