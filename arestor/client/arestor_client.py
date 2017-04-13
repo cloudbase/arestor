@@ -23,8 +23,8 @@ def _url_join(base, *args):
     """Join the url fragments."""
     if not base.endswith("/"):
         base += "/"
-    # NOTE(mmicu): pylint is not aware about the fact 
-    # that we are unpacking a list here 
+    # NOTE(mmicu): pylint is not aware about the fact
+    # that we are unpacking a list here
     # pylint: disable=no-value-for-parameter
     return url_parse.urljoin(base, posixpath.join(*args))
 

@@ -124,6 +124,10 @@ class _LegacyVersion(base_api.BaseAPI):
     exposed = True
     resources = [
         ("password", _PasswordResource),
+        # NOTE(mmicu): Cloudbase-Init will check if this endpoint is
+        # available by requesting the `/meta_data.json` file,
+        # this could be empty
+        ("meta_data_json", _MetadataResource),
     ]
 
 
