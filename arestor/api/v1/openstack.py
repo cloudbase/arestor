@@ -13,6 +13,7 @@
 #    under the License.
 
 """Arestor API endpoint for OpenStack Mocked Metadata."""
+import json
 import base64
 import cherrypy
 
@@ -32,11 +33,16 @@ class _OpenStackResource(base_api.Resource):
 
     def _get_openstack_data(self, name, field=None):
         """Retrieve the required resource from the Openstack namespace."""
+        data = None
         try:
-            return self._get_data(namespace="openstack",
+            data = self._get_data(namespace="openstack",
                                   name=name, field=field)
-        except exception.NotFound:
-            return None
+
+            if field == "data":
+                data = json.loads(data)
+        except (exception.NotFound, ValueError):
+            pass
+        return data
 
     def _set_openstack_data(self, name, field=None, value=None):
         """Set the required resource from the Openstack namespace."""

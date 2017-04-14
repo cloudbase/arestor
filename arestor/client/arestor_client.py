@@ -11,6 +11,7 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+import json
 import posixpath
 
 from requests import compat as url_parse
@@ -54,7 +55,13 @@ class ArestorClient(base_client.ResourceClient):
             namespace=self._base_info["namespace"],
             user=self._base_info["client_id"],
             name=resource_name)
-        return self.resource(key).get("data", {})
+
+        data = self.resource(key).get("data", {})
+        try:
+            data = json.loads(data)
+        except ValueError:
+            pass
+        return data
 
     def get_url(self):
         """Return the url for this client."""
@@ -75,7 +82,7 @@ class ArestorClient(base_client.ResourceClient):
         """Create a new resource in the mocked meta-data."""
         data = {
             "resource": resource_name,
-            "data": resource_data
+            "data": json.dumps(resource_data)
         }
         data.update(self._base_info)
         self.create_resource(data)
