@@ -115,8 +115,7 @@ class _ShowSecret(cli_base.Command):
         secret = users.get_secret(api_key=self.args.api_key)
         if secret:
             return self.args.api_key, secret
-        else:
-            return None
+        return None
 
 
 class User(cli_base.Group):
