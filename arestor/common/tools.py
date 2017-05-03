@@ -16,6 +16,7 @@
 
 import hashlib
 import json
+import time
 import uuid
 
 from Crypto import Random
@@ -99,10 +100,36 @@ class UserManager(cherrypy.Tool):
 
         return True
 
+    @staticmethod
+    def _check_signature(secret, signature, timestamp, delta=5):
+        """Check if the received request is valid."""
+        cipher = arestor_util.AESCipher(secret)
+        try:
+            content = json.loads(cipher.decrypt(signature))
+        except ValueError:
+            LOG.error("Failed to check the signature.")
+            return False
+
+        if not isinstance(content, dict) or "timestamp" not in content:
+            LOG.error("Invalid signature provided.")
+            return False
+
+        if content["timestamp"] != timestamp:
+            LOG.error("Malformed signature provided.")
+            return False
+
+        if int(time.time()) - int(float(content["timestamp"])) > delta:
+            LOG.error("The request cannot be procesed.")
+            return False
+
+        return True
+
     def load(self):
         """Process information received from client."""
         request = cherrypy.request
-        api_key = request.params.get('api_key')
+        api_key = request.params.pop('api_key', None)
+        signature = request.params.pop('signature', None)
+        timestamp = request.params.pop('timestamp', None)
         secret = self._users.get_secret(api_key)
 
         request.params["status"] = False
@@ -110,6 +137,10 @@ class UserManager(cherrypy.Tool):
 
         if not secret:
             request.params["verbose"] = "Invalid api key provided."
+            return
+
+        if not self._check_signature(secret, signature, timestamp):
+            request.params["verbose"] = "Invalid signature."
             return
 
         if not self._process_content(secret):

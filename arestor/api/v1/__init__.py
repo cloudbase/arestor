@@ -16,13 +16,16 @@
 """Arestor API version 1."""
 
 from arestor.api import base as base_api
+from arestor.api.v1 import openstack
 
 
 class ArestorV1(base_api.BaseAPI):
 
     """Arestor API version 1."""
 
-    resources = None
+    resources = [
+        ("openstack", openstack.OpenStackEndpoint),
+    ]
     """A list that contains all the resources (endpoints) available for the
     current metadata service."""
 
