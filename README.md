@@ -1,7 +1,7 @@
 
 # Arestor description
 
-[![Build Status](https://travis-ci.org/alexcoman/arestor.svg?branch=master)](https://travis-ci.org/alexcoman/arestor)
+[![Build Status](https://travis-ci.org/cloudbase/arestor.svg?branch=master)](https://travis-ci.org/cloudbase/arestor)
 
 Arestor is an HTTP framework used to substitute and control cloud providers metadata.
 It is used in integration with the Cloudbase-init-ci framework, to test Cloudbase-init in a fully controlled environment with various HTTP metadata sources like AWS, OpenStack, CloudStack, MAAS or OpenNebula.
@@ -10,10 +10,6 @@ Arestor is the answer to the complex mix of cloud providers specific HTTP metada
 
 
 ## Arestor quickstart
-
-
-[![Build Status](https://travis-ci.org/alexcoman/arestor.svg?branch=master)](https://travis-ci.org/alexcoman/arestor)
-
 
 You first need to install Arestor. This is done with pip after you check out the Arestor repo:
 ```bash
