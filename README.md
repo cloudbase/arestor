@@ -1,4 +1,16 @@
-# Arestor - Quickstart
+
+# Arestor description
+
+[![Build Status](https://travis-ci.org/alexcoman/arestor.svg?branch=master)](https://travis-ci.org/alexcoman/arestor)
+
+Arestor is an HTTP framework used to substitute and control cloud providers metadata.
+It is used in integration with the Cloudbase-init-ci framework, to test Cloudbase-init in a fully controlled environment with various HTTP metadata sources like AWS, OpenStack, CloudStack, MAAS or OpenNebula.
+
+Arestor is the answer to the complex mix of cloud providers specific HTTP metadata implementation and formats.  It is very hard to have at our disposal various OpenStack, CloudStack, MAAS deployments with various hardware or configurable requirements, when all we need is just a controlled way in which to access the cloud specific metadata. This way, we can have the instances spawned up using only an OpenStack environment, which considerably simplifies the testing infrastructure. 
+
+
+## Arestor quickstart
+
 
 [![Build Status](https://travis-ci.org/alexcoman/arestor.svg?branch=master)](https://travis-ci.org/alexcoman/arestor)
 
