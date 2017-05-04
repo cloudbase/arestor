@@ -9,12 +9,12 @@ It is used in integration with the Cloudbase-init-ci framework, to test Cloudbas
 Arestor is the answer to the complex mix of cloud providers specific HTTP metadata implementation and formats.  It is very hard to have at our disposal various OpenStack, CloudStack, MAAS deployments with various hardware or configurable requirements, when all we need is just a controlled way in which to access the cloud specific metadata. This way, we can have the instances spawned up using only an OpenStack environment, which considerably simplifies the testing infrastructure. 
 
 
-## Arestor quickstart
+## Arestor quickstart on Ubuntu 16.04
 
 You first need to install Arestor. This is done with pip after you check out the Arestor repo:
 ```bash
 ~ $ sudo apt-get install redis-server vim git python-dev -y
-~ $ git clone https://github.com/alexcoman/arestor
+~ $ git clone https://github.com/cloudbase/arestor.git
 ~ $ cd arestor
 ~ $ git checkout feature/resource-management
 ~ $ pip install virtualenv
