@@ -34,10 +34,13 @@ class ResourceClient(base_client.Client):
             Return all the resources with a given name.
         """
         filters = {
-            "namespace": namespace if namespace else "",
-            "client_id": client_id if client_id else "",
-            "resource": resource if resource else "",
+            "namespace": namespace,
+            "client_id": client_id,
+            "resource": resource,
         }
+
+        # NOTE(mmicu):  filter out keys with value None
+        filters = dict((key, value) for key, value in filters.items() if value)
 
         url = "/admin/resource?{}".format(
             requests.compat.urlencode(filters))
