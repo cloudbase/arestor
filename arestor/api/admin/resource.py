@@ -36,7 +36,7 @@ class ResourceEndpoint(base_api.Resource):
     @cherrypy.tools.user_required()
     @arestor_util.check_credentials
     @cherrypy.tools.json_out()
-    def GET(self, resource_id="*", namespace="*", client_id="*",
+    def GET(self, resource_id=None, namespace="*", client_id="*",
             resource="*"):
         """The representation of userdata resource."""
         connection = self._redis.rcon
