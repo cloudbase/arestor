@@ -120,4 +120,4 @@ class Resource(object):
     @property
     def client_uuid(self):
         """The client IP address."""
-        return cherrypy.request.headers["X-Arestor-Instance-ID"]
+        return cherrypy.request.headers.get("X-Arestor-Instance-ID")
