@@ -24,7 +24,7 @@ class ArestorV1(base_api.BaseAPI):
     """Arestor API version 1."""
 
     resources = [
-        ("openstack", openstack.OpenStackEndpoint),
+        ("openstack", openstack.OpenStackEndpointNamespace),
     ]
     """A list that contains all the resources (endpoints) available for the
     current metadata service."""
