@@ -27,8 +27,8 @@ for option_class in factory.get_options():
     option_class(CONFIG).register()
 
 _DEFAULT_CONFIG_FILES = [
-    config_file for config_file in ("arestor.conf", "etc/arestor/arestor.conf",
-                                    "/etc/arestor/arestor.conf")
+    config_file for config_file in ("/etc/arestor/arestor.conf",
+                                    "etc/arestor/arestor.conf", "arestor.conf")
     if os.path.isfile(config_file)
 ]
 
