@@ -20,14 +20,21 @@ from arestor.client import resource as base_client
 from arestor.common import constant
 
 
-def _url_join(base, *args):
-    """Join the url fragments."""
+def _append_forward_slash(base):
+    """Append a forward slash if it's not present."""
     if not base.endswith("/"):
         base += "/"
+    return base
+
+
+def _url_join(base, *args):
+    """Join the url fragments."""
+    base = _append_forward_slash(base)
     # NOTE(mmicu): pylint is not aware about the fact
     # that we are unpacking a list here
     # pylint: disable=no-value-for-parameter
-    return url_parse.urljoin(base, posixpath.join(*args))
+    return _append_forward_slash(
+        url_parse.urljoin(base, posixpath.join(*args)))
 
 
 class ArestorClient(base_client.ResourceClient):
@@ -65,7 +72,7 @@ class ArestorClient(base_client.ResourceClient):
 
     def get_url(self):
         """Return the url for this client."""
-        url = _url_join(self._base_url, 'v1', self._client_id, self._namespace)
+        url = _url_join(self._base_url, 'v1', self._namespace, self._client_id)
         return url
 
     def set_namespace(self, namespace):

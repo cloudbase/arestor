@@ -137,7 +137,7 @@ class _LegacyVersion(base_api.BaseAPI):
     ]
 
 
-class OpenStackEndpoint(base_api.BaseAPI):
+class _OpenStackEndpoint(base_api.BaseAPI):
 
     """Arestor API endpoint for OpenStack Mocked Metadata."""
 
@@ -156,6 +156,34 @@ class OpenStackEndpoint(base_api.BaseAPI):
         """Handle for invalid resource name or alias."""
 
         # Note(alexcoman): The cherrypy MethodDispatcher will replace the
+        # `-` from the resource / endpoint name with `_`. In order to avoid
+        # any problems we will try to avoid this scenario.
+        if "_" in name:
+            return self.__dict__.get(name.replace("_", "-"))
+
+        raise AttributeError("%r object has no attribute %r" %
+                             (self.__class__.__name__, name))
+
+
+class OpenStackEndpointNamespace(base_api.BaseAPI):
+
+    """The API Namespace for openstack."""
+    resources = [
+        ("openstack", _OpenStackEndpoint)
+    ]
+
+    """A list that contains all the resources (endpoints) available for the
+    current metadata service."""
+
+    exposed = True
+    """Whether this application should be available for clients."""
+
+    def __getattr__(self, name):
+        """Handle for invalid resource name or alias."""
+
+        # NOTE(mmicu): Add this method in base
+
+        # Note(mmicu): The cherrypy MethodDispatcher will replace the
         # `-` from the resource / endpoint name with `_`. In order to avoid
         # any problems we will try to avoid this scenario.
         if "_" in name:
