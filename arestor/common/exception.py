@@ -21,7 +21,7 @@ class ArestorException(Exception):
     To correctly use this class, inherit from it and define
     a `template` property.
 
-    That `template` will be formated using the keyword arguments
+    That `template` will be formatted using the keyword arguments
     provided to the constructor.
     """
 

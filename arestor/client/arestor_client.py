@@ -79,7 +79,7 @@ class ArestorClient(base_client.ResourceClient):
         """Set a specific namespace."""
         self._namespace = namespace
 
-        # TODO(mmicu): make this a @proprety method
+        # TODO(mmicu): make this a @property method
         self._base_info = {
             "client_id": self._client_id,
             "namespace": self._namespace,
