@@ -210,7 +210,7 @@ class Group(object):
         self._parsers[name] = parser
 
     def _get_parser(self, name):
-        """Get an parser from the current command group."""
+        """Get a parser from the current command group."""
         try:
             return self._parsers[name]
         except KeyError:

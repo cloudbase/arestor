@@ -28,7 +28,7 @@ CONFIG = config.CONFIG
 
 class ArestorCli(cli_base.Application):
 
-    """Command line application for interacting with InstaCli."""
+    """Command line application for interacting with Arestor."""
 
     commands = [
         (cli_commands.Server, "commands"),
