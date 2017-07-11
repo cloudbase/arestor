@@ -18,6 +18,7 @@ import base64
 import functools
 import hashlib
 import json
+import six
 
 import cherrypy
 from Crypto.Cipher import AES
@@ -30,6 +31,30 @@ from arestor import config as arestor_config
 
 CONFIG = arestor_config.CONFIG
 LOG = logging.getLogger(__name__)
+
+
+def get_as_string(value):
+    if value is None or isinstance(value, six.text_type):
+        return value
+    else:
+        try:
+            return value.decode()
+        except UnicodeDecodeError:
+            # This is important, because None will be returned,
+            # but not that serious to raise an exception.
+            LOG.error("Couldn't decode: %r", value)
+
+
+def get_as_bytes(value):
+    if value is None or isinstance(value, six.binary_type):
+        return value
+    else:
+        try:
+            return value.encode()
+        except UnicodeEncodeError:
+            # This is important, because None will be returned,
+            # but not that serious to raise an exception.
+            LOG.error("Couldn't encode: %r", value)
 
 
 def get_attribute(root, attribute):
@@ -82,7 +107,7 @@ class AESCipher(object):
     def __init__(self, key):
         """Setup the new instance."""
         self._block_size = AES.block_size
-        self._key = hashlib.sha256(key.encode()).digest()
+        self._key = hashlib.sha256(get_as_bytes(key)).digest()
 
     def encrypt(self, message):
         """Encrypt the received message."""

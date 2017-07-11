@@ -21,6 +21,7 @@ from oslo_log import log as logging
 
 from arestor.api import base as base_api
 from arestor.common import exception
+from arestor.common import util as arestor_util
 
 
 LOG = logging.getLogger(__name__)
@@ -39,7 +40,7 @@ class _OpenStackResource(base_api.Resource):
                                   name=name, field=field)
 
             if field == "data":
-                data = json.loads(data)
+                data = json.loads(arestor_util.get_as_string(data))
         except (exception.NotFound, ValueError):
             pass
         return data
