@@ -62,7 +62,8 @@ class Users(object):
         """List all the available information regarding the users."""
         user_info = self._redis.hgetall("user.info")
         for api_key, information in user_info.items():
-            user_info[api_key] = json.loads(information)
+            user_info[api_key] = json.loads(
+                arestor_util.get_as_string(information))
         return user_info
 
 
